@@ -1,0 +1,35 @@
+{
+  "assignment": "ML-10 (w07_action_playbook.ipynb)",
+  "lane": "Lane 2 -- Refresh / Content Opportunity Scoring",
+  "queue_scope": {
+    "validated_clients": 10,
+    "total_clients_in_universe": 33,
+    "queue_rows": 17803
+  },
+  "validated_performance_w05_w06": {
+    "precision_at_50": 0.78,
+    "roc_auc": 0.604,
+    "test_base_rate": 0.537
+  },
+  "archetype_distribution": {
+    "predicted_decline_risk": 10945,
+    "ctr_gap_only": 4146,
+    "decline_risk_and_ctr_gap": 1590,
+    "stable": 1122
+  },
+  "value_at_risk_usd": {
+    "total": 36736.87,
+    "rows_with_nonzero_cpc": 4537,
+    "top_row_usd": 1401.85
+  },
+  "monitoring_reference_values": {
+    "precision_at_50": 0.78,
+    "roc_auc": 0.604,
+    "test_base_rate": 0.537,
+    "gsc_availability_share_ml04": 0.367,
+    "ga4_availability_share_ml04": 0.042,
+    "top_permutation_importance_feature": "ctr_first_half",
+    "validated_client_count": 10,
+    "total_client_count": 33
+  }
+}

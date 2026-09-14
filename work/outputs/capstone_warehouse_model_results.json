@@ -1,0 +1,59 @@
+{
+  "baseline_A_holdout": {
+    "precision_at_50": 0.48,
+    "average_precision": 0.43040883831402343,
+    "base_rate": 0.34809973372064873
+  },
+  "logistic_regression_A_holdout": {
+    "precision_at_50": 0.68,
+    "average_precision": 0.6025889062465586,
+    "roc_auc": 0.7662716453877487
+  },
+  "decision_tree_A_holdout": {
+    "precision_at_50": 0.68,
+    "average_precision": 0.5459478251071593,
+    "roc_auc": 0.729756794904835
+  },
+  "random_forest_A_holdout": {
+    "precision_at_50": 0.7,
+    "average_precision": 0.6031013020507516,
+    "roc_auc": 0.754860254293442
+  },
+  "baseline_B_sealed": {
+    "precision_at_50": 0.68,
+    "average_precision": 0.6370783714903953,
+    "base_rate": 0.6082053276297881
+  },
+  "random_forest_B_sealed": {
+    "precision_at_50": 0.96,
+    "average_precision": 0.6643529459246412,
+    "roc_auc": 0.5550078794136066
+  },
+  "best_model": "random_forest",
+  "numeric_features": [
+    "feat_impressions",
+    "feat_clicks",
+    "feat_sessions",
+    "feat_engaged_sessions",
+    "feat_engagement_sec",
+    "feat_sessions_ai",
+    "feat_scroll_events",
+    "feat_avg_position",
+    "feat_days_gsc",
+    "feat_days_ga4",
+    "ctr",
+    "engagement_rate",
+    "momentum_ratio",
+    "age_days",
+    "word_count",
+    "backlinks",
+    "search_volume",
+    "competition"
+  ],
+  "categorical_features": [
+    "content_type",
+    "main_intent",
+    "competition_level"
+  ],
+  "seed": 42
+}

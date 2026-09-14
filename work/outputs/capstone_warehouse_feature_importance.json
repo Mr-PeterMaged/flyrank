@@ -1,0 +1,17 @@
+{
+  "momentum_ratio":0.1800998503,
+  "word_count":0.1269046115,
+  "age_days":0.1081486967,
+  "feat_impressions":0.0969806282,
+  "feat_days_gsc":0.0691811293,
+  "feat_sessions":0.0514657151,
+  "has_word_count":0.0485570253,
+  "feat_days_ga4":0.0446300894,
+  "feat_avg_position":0.0442251976,
+  "ctr":0.0413970513,
+  "feat_scroll_events":0.040574274,
+  "feat_clicks":0.0327968957,
+  "feat_engagement_sec":0.0233164683,
+  "has_backlinks":0.0181838147,
+  "engagement_rate":0.0109753019
+}

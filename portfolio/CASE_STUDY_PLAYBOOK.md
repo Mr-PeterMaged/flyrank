@@ -23,7 +23,9 @@ Three-beat shape (same one from Week 2 — reuse it every time, don't reinvent t
 
 ## Next real piece of work: the FlyRank capstone
 
-Named now, drafted now, so adding it later is just pasting this in and pointing the link:
+**Update: already live.** The card below shipped straight into `index.html`'s WORK section
+(leading it, as the strongest/freshest project) instead of staying a draft — kept here so the
+next case study has a template to copy:
 
 > **Problem** — Which content pages should a reviewer with limited time check first for refresh?
 > **What I did** — Rebuilt the scoring pipeline directly from FlyRank's 78.8M-row production

@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peter Maged — Software Engineering</title>
+<meta name="description" content="Software engineering student building working ML pipelines and AI-powered products. Seeking a Software Engineering internship, graduating 2028.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2314201c'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='%23b8862e' font-family='Georgia,serif'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --ink: #14201c;
+    --paper: #f5f4ef;
+    --paper-raised: #ffffff;
+    --muted: #5c6b62;
+    --rule: #dcded7;
+    --accent: #96691c;
+    --accent-soft: #f1e6cf;
+    --shadow: 0 1px 2px rgba(20,32,28,.05), 0 10px 28px rgba(20,32,28,.07);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --ink: #edf1ec;
+      --paper: #10140f;
+      --paper-raised: #191f19;
+      --muted: #9aa79f;
+      --rule: #2a322b;
+      --accent: #d9a84e;
+      --accent-soft: #382c17;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 28px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --ink: #edf1ec;
+    --paper: #10140f;
+    --paper-raised: #191f19;
+    --muted: #9aa79f;
+    --rule: #2a322b;
+    --accent: #d9a84e;
+    --accent-soft: #382c17;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 28px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+    font-size:17px; line-height:1.6; padding-inline:20px;
+  }
+  .wrap{max-width:980px; margin:0 auto;}
+  .prose{max-width:62ch;}
+
+  h1,h2,h3{font-family:'Instrument Serif', Georgia, serif; font-weight:400; text-wrap:balance; margin:0;}
+  p{margin:.8rem 0;}
+  a{color:var(--accent);}
+  code, .mono{font-family:'IBM Plex Mono', monospace;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:.72rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted);
+  }
+  .muted{color:var(--muted);}
+
+  nav.top{
+    position:sticky; top:0; z-index:5; background:var(--paper);
+    border-bottom:1px solid var(--rule); padding-block:14px;
+    display:flex; justify-content:space-between; align-items:center; gap:14px;
+  }
+  nav.top .name{font-family:'Instrument Serif', Georgia, serif; font-size:1.25rem;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; border-radius:999px;
+    padding:10px 18px; font-size:.88rem; font-weight:600; text-decoration:none;
+    white-space:nowrap; border:1px solid transparent;
+  }
+  .btn.primary{background:var(--ink); color:var(--paper);}
+  .btn.secondary{background:transparent; color:var(--ink); border-color:var(--rule);}
+  .btn.small{padding:7px 14px; font-size:.8rem;}
+
+  .hero{padding-block:64px 40px;}
+  .hero h1{font-size:clamp(2.3rem, 5.4vw, 3.4rem); line-height:1.08; max-width:16ch;}
+  .hero .sub{font-size:1.12rem; color:var(--muted); max-width:52ch; margin-top:16px;}
+  .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:26px;}
+
+  h2.section-title{font-size:1.7rem; margin-bottom:.3rem;}
+  section{padding-block:52px; border-top:1px solid var(--rule);}
+
+  .work-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:18px; margin-top:28px;
+  }
+  @media (max-width:720px){ .work-grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--paper-raised); border:1px solid var(--rule); border-radius:14px;
+    padding:22px 22px 20px; box-shadow:var(--shadow); display:flex; flex-direction:column;
+  }
+  .card .lead-badge{
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.66rem;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--accent);
+    background:var(--accent-soft); padding:3px 8px; border-radius:5px; margin-bottom:10px; width:fit-content;
+  }
+  .card h3{font-size:1.32rem; margin-bottom:2px;}
+  .card .role{font-size:.82rem; color:var(--muted); margin-bottom:12px;}
+  .card dl{margin:0 0 14px; flex:1;}
+  .card dt{
+    font-family:'IBM Plex Mono',monospace; font-size:.66rem; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); margin-top:10px;
+  }
+  .card dt:first-child{margin-top:0;}
+  .card dd{margin:2px 0 0; font-size:.93rem;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;}
+  .chip{
+    font-family:'IBM Plex Mono',monospace; font-size:.7rem; background:var(--paper);
+    border:1px solid var(--rule); border-radius:5px; padding:3px 8px; color:var(--muted);
+  }
+  .card .view{
+    font-weight:600; font-size:.88rem; text-decoration:none; display:inline-flex;
+    align-items:center; gap:5px; margin-top:auto;
+  }
+  .card .view::after{content:"→"; transition:transform .15s;}
+  .card .view:hover::after{transform:translateX(3px);}
+
+  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:40px; margin-top:24px;}
+  @media (max-width:720px){ .about-grid{grid-template-columns:1fr;} }
+  .fact-list{list-style:none; margin:0; padding:0;}
+  .fact-list li{
+    display:flex; justify-content:space-between; gap:12px; padding:10px 0;
+    border-bottom:1px solid var(--rule); font-size:.92rem;
+  }
+  .fact-list li span:first-child{color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:.76rem; text-transform:uppercase; letter-spacing:.06em;}
+  .fact-list li span:last-child{font-weight:600; text-align:right;}
+
+  .skills-wrap{margin-top:6px;}
+  .skills-wrap .chip{font-size:.78rem; padding:5px 10px;}
+  .skills-wrap .chip-row{margin-top:10px;}
+
+  .contact-band{
+    background:var(--ink); color:var(--paper); border-radius:18px; padding:44px 36px;
+    text-align:center; margin-top:8px;
+  }
+  .contact-band h2{color:var(--paper); font-size:2rem;}
+  .contact-band p{color:#c7cdc9; max-width:44ch; margin-inline:auto;}
+  .contact-band .cta-row{justify-content:center; margin-top:24px;}
+  .contact-band .btn.primary{background:var(--accent); color:#1b1508;}
+  .contact-band .btn.secondary{color:var(--paper); border-color:#3a453e;}
+
+  footer{padding-block:30px 50px; font-size:.82rem; color:var(--muted); text-align:center;}
+
+  @media (max-width:640px){
+    .hero{padding-block:44px 26px;}
+    section{padding-block:40px;}
+    .contact-band{padding:34px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="top wrap">
+  <span class="name">Peter Maged</span>
+  <a class="btn primary small" href="https://www.linkedin.com/in/petermaged" target="_blank" rel="noopener">Connect on LinkedIn</a>
+</nav>
+
+<div class="wrap">
+
+  <section class="hero" id="hero" style="border-top:none;">
+    <p class="eyebrow">Software Engineering student · Cairo</p>
+    <h1>Building working software, not just prototypes.</h1>
+    <p class="sub">I build ML pipelines and AI-powered products that run on real data and real
+    users — most recently a scoring model trained on 78.8 million rows of production search
+    data. Seeking a Software Engineering internship, graduating 2028.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="https://www.linkedin.com/in/petermaged" target="_blank" rel="noopener">Connect on LinkedIn</a>
+      <a class="btn secondary" href="https://pm-cv.vercel.app/" target="_blank" rel="noopener">View CV</a>
+    </div>
+  </section>
+
+  <section id="work">
+    <p class="eyebrow">Selected work</p>
+    <h2 class="section-title">Four things I built and shipped</h2>
+    <p class="muted prose">Each one is live — click through and try it, not just read about it.</p>
+
+    <div class="work-grid">
+
+      <div class="card">
+        <span class="lead-badge">Data / ML</span>
+        <h3>FlyRank Content Refresh Scoring</h3>
+        <p class="role">ML internship capstone · full production data warehouse</p>
+        <div class="chip-row">
+          <span class="chip">Python</span><span class="chip">DuckDB</span>
+          <span class="chip">scikit-learn</span><span class="chip">SQL</span>
+        </div>
+        <dl>
+          <dt>Problem</dt><dd>Which content pages should a reviewer check first, out of a client's full inventory?</dd>
+          <dt>What I built</dt><dd>A scoring pipeline rebuilt directly from a 78.8M-row raw search warehouse, with a forward-looking label and a sealed test period the model never touched during development.</dd>
+          <dt>What it proves</dt><dd>Precision@50 went 0.68 → 0.96 on that untouched test period — validated honestly, not just claimed.</dd>
+        </dl>
+        <a class="view" href="https://flyrank-eight.vercel.app/" target="_blank" rel="noopener">Read the paper</a>
+      </div>
+
+      <div class="card">
+        <span class="lead-badge">AI Product</span>
+        <h3>SkillBridge AI</h3>
+        <p class="role">Career-readiness platform</p>
+        <div class="chip-row">
+          <span class="chip">Web app</span><span class="chip">AI/LLM</span><span class="chip">Vercel</span>
+        </div>
+        <dl>
+          <dt>Problem</dt><dd>Students burn time on generic courses that don't match what a specific job actually needs.</dd>
+          <dt>What I built</dt><dd>CV analysis against real job descriptions, deterministic readiness scoring (not AI guesswork), and a 4-week roadmap generator across 15+ curated roles.</dd>
+          <dt>What it proves</dt><dd>A useful first result in under 5 minutes, with a concrete readiness-improvement path.</dd>
+        </dl>
+        <a class="view" href="https://ai-skill-bridge-dusky.vercel.app/" target="_blank" rel="noopener">Try it live</a>
+      </div>
+
+      <div class="card">
+        <span class="lead-badge">AI Product</span>
+        <h3>AI Interview Simulator</h3>
+        <p class="role">Interview-practice platform, EN/AR</p>
+        <div class="chip-row">
+          <span class="chip">Web app</span><span class="chip">AI/LLM</span><span class="chip">Vercel</span>
+        </div>
+        <dl>
+          <dt>Problem</dt><dd>Candidates rarely get realistic interview practice with honest, specific feedback.</dd>
+          <dt>What I built</dt><dd>A role-adaptive AI interviewer with live transcription and scoring across clarity, relevance, structure, and confidence — in English and Arabic.</dd>
+          <dt>What it proves</dt><dd>Instant, structured feedback reports in place of rote memorization.</dd>
+        </dl>
+        <a class="view" href="https://ai-interview-simulator-ten-navy.vercel.app/" target="_blank" rel="noopener">Try it live</a>
+      </div>
+
+      <div class="card">
+        <span class="lead-badge">Web App</span>
+        <h3>Resume Studio</h3>
+        <p class="role">ATS-aware resume builder</p>
+        <div class="chip-row">
+          <span class="chip">Web app</span><span class="chip">AI/LLM</span><span class="chip">Vercel</span>
+        </div>
+        <dl>
+          <dt>Problem</dt><dd>Most resume builders are generic templates that don't survive an ATS filter.</dd>
+          <dt>What I built</dt><dd>A multi-template builder with live ATS scoring, an AI resume coach, and PDF export — it's what generates the CV linked from this page.</dd>
+          <dt>What it proves</dt><dd>Faster, ATS-aware resume production — I use my own tool for my own CV.</dd>
+        </dl>
+        <a class="view" href="https://pm-cv.vercel.app/" target="_blank" rel="noopener">Try it live</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="about">
+    <p class="eyebrow">About</p>
+    <h2 class="section-title">Why banking</h2>
+
+    <div class="about-grid">
+      <div class="prose">
+        <p>Software engineering student in Cairo, currently building an ML pipeline on FlyRank's
+        production search warehouse — 78.8 million rows, a real sealed-test evaluation, no
+        shortcuts on validation. That same rigor is what draws me to banking: systems where
+        correctness, security, and scale aren't optional, and where an engineer's work has to
+        hold up under real load, not just a demo.</p>
+        <p class="muted" style="font-size:.85rem;">— draft line, worth personalizing with your
+        own reason before this goes live; delete this note once you have.</p>
+
+        <div class="skills-wrap">
+          <p class="eyebrow" style="margin-top:20px;">Skills</p>
+          <div class="chip-row">
+            <span class="chip">Python</span><span class="chip">SQL</span>
+            <span class="chip">Pandas / scikit-learn</span><span class="chip">Data Pipelines</span>
+            <span class="chip">Model Evaluation</span><span class="chip">DuckDB</span>
+            <span class="chip">Git &amp; GitHub</span><span class="chip">REST APIs</span>
+            <span class="chip">AI / LLM Integration</span><span class="chip">Web Dev (Vercel)</span>
+          </div>
+        </div>
+      </div>
+
+      <ul class="fact-list">
+        <li><span>Based in</span><span>Cairo, Egypt</span></li>
+        <li><span>Studying</span><span>Software Engineering</span></li>
+        <li><span>Graduating</span><span>2028</span></li>
+        <li><span>Seeking</span><span>SWE Internship</span></li>
+        <li><span>Current</span><span>FlyRank ML Internship</span></li>
+        <li><span>LinkedIn</span><span><a href="https://www.linkedin.com/in/petermaged" target="_blank" rel="noopener">petermaged</a></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" style="border-top:none;">
+    <div class="contact-band">
+      <p class="eyebrow" style="color:#9faca5;">Contact</p>
+      <h2>Let's talk.</h2>
+      <p>The fastest way to reach me is LinkedIn — or take a look at my CV first.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="https://www.linkedin.com/in/petermaged" target="_blank" rel="noopener">Connect on LinkedIn</a>
+        <a class="btn secondary" href="https://pm-cv.vercel.app/" target="_blank" rel="noopener">View CV</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>Peter Maged · Software Engineering student, Cairo · built with real, live projects</footer>
+
+</body>
+</html>

@@ -19,8 +19,6 @@ read): **HERO → WORK (4 curated, live projects) → ABOUT + SKILLS → CONTACT
 
 ## Before it goes fully live
 
-- `about` section has one clearly-marked draft line ("why banking") — personalize it, then
-  delete the note under it.
 - `CV` links to `pm-cv.vercel.app` (the Resume Studio project itself) rather than a static PDF —
   swap in a direct PDF link if/when you export one.
 

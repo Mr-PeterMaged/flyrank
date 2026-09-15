@@ -17,10 +17,8 @@ read): **HERO → WORK (4 curated, live projects) → ABOUT + SKILLS → CONTACT
    install command needed; toggle those fields off if Vercel pre-fills them).
 4. Deploy → you get a `https://<something>.vercel.app` URL, independent of the paper's domain.
 
-## Before it goes fully live
-
-- `CV` links to `pm-cv.vercel.app` (the Resume Studio project itself) rather than a static PDF —
-  swap in a direct PDF link if/when you export one.
+`View CV` links to the live FlowCV resume (`flowcv.com/resume/apk1itq2krk4`); the Resume Studio
+project card still links to `pm-cv.vercel.app` — that's the tool itself, not the CV.
 
 See [`CASE_STUDY_PLAYBOOK.md`](CASE_STUDY_PLAYBOOK.md) before adding or updating any project
 card in WORK later — it's the repeatable habit, not a one-off.

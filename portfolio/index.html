@@ -138,15 +138,19 @@
   .skills-wrap .chip{font-size:.78rem; padding:5px 10px;}
   .skills-wrap .chip-row{margin-top:10px;}
 
+  /* Deliberately fixed dark band, independent of --ink/--paper: those tokens flip in dark
+     mode (--ink becomes light text-color), which inverted this band's contrast when it read
+     off them directly. This is a always-dark surface like the paper/ chart cards are always
+     white -- a fixed look on purpose, not a themed one. */
   .contact-band{
-    background:var(--ink); color:var(--paper); border-radius:18px; padding:44px 36px;
+    background:#14201c; color:#f5f4ef; border-radius:18px; padding:44px 36px;
     text-align:center; margin-top:8px;
   }
-  .contact-band h2{color:var(--paper); font-size:2rem;}
+  .contact-band h2{color:#f5f4ef; font-size:2rem;}
   .contact-band p{color:#c7cdc9; max-width:44ch; margin-inline:auto;}
   .contact-band .cta-row{justify-content:center; margin-top:24px;}
-  .contact-band .btn.primary{background:var(--accent); color:#1b1508;}
-  .contact-band .btn.secondary{color:var(--paper); border-color:#3a453e;}
+  .contact-band .btn.primary{background:#b8862e; color:#1b1508;}
+  .contact-band .btn.secondary{color:#f5f4ef; border-color:#3a453e;}
 
   footer{padding-block:30px 50px; font-size:.82rem; color:var(--muted); text-align:center;}
 

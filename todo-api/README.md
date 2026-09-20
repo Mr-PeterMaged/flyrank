@@ -1,9 +1,16 @@
 # Task API
 
-A small CRUD API for a to-do list, built with Node.js and Express. Data is kept in memory
-(no database) — it's seeded with 3 example tasks on startup and lost when the server restarts.
+A small CRUD API for a to-do list, built with Node.js and Express. Data is stored in a
+[SQLite](https://sqlite.org/) database file, `tasks.db`, so it survives a server restart.
 
-Built for FlyRank Internship · Backend Track · W2 · Assignment A1.
+Built for FlyRank Internship · Backend Track · W2 (Assignment A1) and W3 (Assignment A2).
+
+## Why SQLite
+
+SQLite needs no separate server and no install of its own — the whole database is one file
+on disk. `db.js` opens (and if needed creates) `tasks.db`, creates the `tasks` table if it's
+missing, and seeds 3 example tasks only the first time the table is empty. That's enough for
+a project this size: zero setup, and the data is still there tomorrow.
 
 ## Install & run
 
@@ -12,7 +19,8 @@ npm install
 npm start
 ```
 
-The server starts on `http://localhost:3000`. Interactive docs (Swagger UI) are at
+The server starts on `http://localhost:3000` and creates `tasks.db` automatically on first
+run — a fresh clone works with no manual database setup. Interactive docs (Swagger UI) are at
 `http://localhost:3000/docs`.
 
 ## Endpoints
@@ -45,10 +53,26 @@ Content-Length: 40
 
 _Screenshot: add one here after clicking through the full CRUD cycle in `/docs`._
 
-## The mortality experiment
+## SQL by hand
 
-Create a few tasks, restart the server, then `GET /tasks` again — the new tasks are gone; only
-the 3 seeded tasks remain. That's because storage is an in-memory JavaScript array: it lives in
-the process's RAM and is thrown away the moment the process exits. Nothing persists it to disk,
-so restarting the server is indistinguishable from wiping the database — which is exactly the
-problem a real database solves.
+`tasks.db` can be opened directly in [DB Browser for SQLite](https://sqlitebrowser.org/) — its
+"Execute SQL" tab talks to the exact same file the API reads, so a change made there shows up
+in `GET /tasks` immediately, no server restart needed. One query run this way:
+
+```sql
+UPDATE tasks SET done = 1 WHERE id = 2;
+```
+
+Result: `GET /tasks` immediately showed task 2 (`"Walk the dog"`) with `"done": true` — proof
+that the API and DB Browser are two windows onto the same data, not two separate copies.
+
+_Screenshot: add one here of `tasks.db` open in DB Browser for SQLite._
+
+## Persistence, proven
+
+Create a few tasks, restart the server, then `GET /tasks` again — the new tasks are still
+there. In Assignment 1, storage was an in-memory JavaScript array that lived in the process's
+RAM and was thrown away the moment the process exited, so a restart was indistinguishable from
+wiping the database. Now storage is a file on disk (`tasks.db`), so the process can stop and
+start as many times as it likes — the data outlives it. That's the entire point of a database,
+and the API layer (routes, validation, status codes) didn't have to change at all to get it.

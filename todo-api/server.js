@@ -1,12 +1,15 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const openapiSpec = require('./openapi.json');
+const db = require('./db');
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpec));
+
+const toTask = (row) => ({ id: row.id, title: row.title, done: !!row.done });
 
 let tasks = [
   { id: 1, title: 'Buy milk', done: false },
@@ -24,16 +27,17 @@ app.get('/health', (req, res) => {
 });
 
 app.get('/tasks', (req, res) => {
-  res.json(tasks);
+  const rows = db.prepare('SELECT * FROM tasks').all();
+  res.json(rows.map(toTask));
 });
 
 app.get('/tasks/:id', (req, res) => {
   const id = Number(req.params.id);
-  const task = tasks.find((t) => t.id === id);
-  if (!task) {
-    return res.status(404).json({ error: `Task ${id} not found` });
+  const row = db.prepare('SELECT * FROM tasks WHERE id = ?').get(id);
+  if (!row) {
+    return res.status(404).json({ error: 'Task not found' });
   }
-  res.json(task);
+  res.json(toTask(row));
 });
 
 app.post('/tasks', (req, res) => {

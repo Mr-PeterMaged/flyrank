@@ -45,9 +45,9 @@ app.post('/tasks', (req, res) => {
   if (!title || typeof title !== 'string' || !title.trim()) {
     return res.status(400).json({ error: 'title is required' });
   }
-  const task = { id: nextId++, title, done: false };
-  tasks.push(task);
-  res.status(201).json(task);
+  const info = db.prepare('INSERT INTO tasks (title, done) VALUES (?, ?)').run(title, 0);
+  const row = db.prepare('SELECT * FROM tasks WHERE id = ?').get(info.lastInsertRowid);
+  res.status(201).json(toTask(row));
 });
 
 app.put('/tasks/:id', (req, res) => {

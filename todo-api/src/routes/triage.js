@@ -1,7 +1,15 @@
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const { TriageInput } = require('../llm/schema');
+const { client, MODEL } = require('../llm/client');
 
 const router = express.Router();
+
+const SYSTEM_PROMPT = fs.readFileSync(
+  path.join(__dirname, '..', '..', 'prompts', 'triage-v1.md'),
+  'utf8'
+);
 
 // LLM_STUB=1 skips the model entirely and returns a fixed, schema-valid object.
 // This is how every later stage gets built and restarted without spending a call.
@@ -24,8 +32,16 @@ router.post('/triage', async (req, res) => {
     return res.json(STUB_RESPONSE);
   }
 
-  // Stage 2 wires this up to a real prompt file and the model.
-  res.status(501).json({ error: 'Not implemented yet — set LLM_STUB=1' });
+  // Stage 3 adds parse + validate + repair; for now, return whatever the model said.
+  const response = await client.chat.completions.create({
+    model: MODEL,
+    temperature: 0,
+    messages: [
+      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'user', content: JSON.stringify({ text: parsedInput.data.text }) },
+    ],
+  });
+  res.json({ raw: response.choices[0].message.content });
 });
 
 module.exports = router;

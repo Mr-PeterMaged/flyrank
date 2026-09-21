@@ -47,6 +47,24 @@ app.post('/auth/login', async (req, res) => {
   });
 });
 
+const extractToken = (req) => {
+  const header = req.headers.authorization ?? '';
+  const [scheme, token] = header.split(' ');
+  return scheme === 'Bearer' && token ? token : null;
+};
+
+app.get('/public/info', (req, res) => {
+  res.json({ message: 'Welcome stranger! This info is public.' });
+});
+
+app.get('/protected/profile', async (req, res) => {
+  const token = extractToken(req);
+  if (!token) {
+    return res.status(401).json({ error: 'Access token required' });
+  }
+  res.json({ message: 'token present, not yet verified' });
+});
+
 app.get('/tasks', async (req, res) => {
   const { rows } = await db.pool.query('SELECT * FROM tasks');
   res.json(rows.map(toTask));

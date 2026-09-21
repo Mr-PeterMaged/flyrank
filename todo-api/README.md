@@ -1,9 +1,10 @@
 # Task API
 
-A small CRUD API for a to-do list, built with Node.js and Express, backed by a PostgreSQL
-database running in Docker. The whole stack — app and database — starts with one command.
+A CRUD API for a to-do list, built with Node.js and Express, backed by a PostgreSQL database
+running in Docker, and secured with [Supabase Auth](https://supabase.com/auth): sign up, log in,
+log out, and JWT-protected routes. The whole stack — app and database — starts with one command.
 
-Built for FlyRank Internship · Backend Track · W2 (A1, A2) and W1 (Assignment A3).
+Built for FlyRank Internship · Backend Track · W2 (A1, A2, A4) and W1 (Assignment A3).
 
 ## Storage history
 
@@ -29,8 +30,14 @@ That single command builds the app image, starts a Postgres 16 container with a 
 `tasks` table and seeds 3 example tasks on first run. The API is on `http://localhost:3000`,
 Swagger UI at `http://localhost:3000/docs`.
 
-`.env` holds `DATABASE_URL` and is git-ignored; `.env.example` is the committed template with
-placeholder values — no real credentials ever reach the repo.
+`.env` holds `DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_KEY` and `PORT`, and is git-ignored;
+`.env.example` is the committed template with placeholder values — no real credentials ever
+reach the repo. To get your own Supabase values: create a free project at
+[supabase.com](https://supabase.com), then copy **Project Settings → API → Project URL** and the
+**anon / publishable key** (never the `service_role` / secret key — that one bypasses all
+security and must never leave the server). For this practice project, also turn off
+**Authentication → Sign In / Up → Email → Confirm email**, so a fresh signup can log in
+immediately without clicking a confirmation link.
 
 ### Running the app outside Docker
 
@@ -56,38 +63,77 @@ The database's healthcheck (`pg_isready`) plus the API's `depends_on: condition:
 stops a real race condition: without it, the API container starts before Postgres is ready to
 accept connections and exits immediately on `ECONNREFUSED`.
 
-## Endpoints
+## Auth
 
-| Method | Path         | Description                        | Success | Errors        |
-|--------|--------------|-------------------------------------|---------|----------------|
-| GET    | `/`          | API description                     | 200     | —              |
-| GET    | `/health`    | Health check                        | 200     | —              |
-| GET    | `/tasks`     | List all tasks                      | 200     | —              |
-| GET    | `/tasks/:id` | Get one task                        | 200     | 404 unknown id |
-| POST   | `/tasks`     | Create a task (`{ "title": "..." }`)| 201     | 400 missing/empty title |
-| PUT    | `/tasks/:id` | Update a task's `title` and/or `done` | 200   | 400 invalid body · 404 unknown id |
-| DELETE | `/tasks/:id` | Delete a task                       | 204     | 404 unknown id |
-
-All queries use parameterized placeholders (`$1`, `$2`, …) — no request value is ever glued into
-a SQL string.
-
-## Example — curl -i
+Supabase is the identity provider: it stores accounts, hashes passwords, and signs JSON Web
+Tokens (JWTs). This API never touches a password or does any cryptography itself — it forwards
+credentials to Supabase and verifies the tokens Supabase hands back.
 
 ```
-$ curl -i http://localhost:3000/tasks/1
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: application/json; charset=utf-8
-Content-Length: 40
+Client → Supabase        (POST /auth/signup, /auth/login: email + password)
+Supabase → Client        (a signed JWT access token)
+Client → this API        (Authorization: Bearer <token>)
+this API → Supabase      (supabase.auth.getUser(token) — "is this real?")
+```
 
-{"id":1,"title":"Buy milk","done":false}
+`auth-middleware.js` is the single reusable guard (`requireAuth`): it extracts the bearer token,
+asks Supabase to verify it, and either attaches `req.user` and calls `next()`, or short-circuits
+with a `401`. It's applied to every protected route below — adding a new protected route is one
+line, with zero new auth code.
+
+## Endpoints
+
+| Method | Path                    | Description                          | Auth required | Success | Errors |
+|--------|-------------------------|---------------------------------------|:---:|---------|--------|
+| POST   | `/auth/signup`          | Create a new user account             | — | 201 | 400 missing email/password |
+| POST   | `/auth/login`           | Authenticate, return a JWT            | — | 200 | 400 missing input · 401 bad credentials |
+| POST   | `/auth/logout`          | End the session                       | ✓ | 204 | 401 missing/invalid token |
+| GET    | `/public/info`          | Open, unauthenticated data            | — | 200 | — |
+| GET    | `/protected/profile`    | The verified user's id/email/created_at | ✓ | 200 | 401 missing/invalid token |
+| GET    | `/protected/dashboard`  | Second route reusing the same guard   | ✓ | 200 | 401 missing/invalid token |
+| GET    | `/`                     | API description                       | — | 200 | — |
+| GET    | `/health`               | Health check                          | — | 200 | — |
+| GET    | `/tasks`                | List all tasks                        | — | 200 | — |
+| GET    | `/tasks/:id`            | Get one task                          | — | 200 | 404 unknown id |
+| POST   | `/tasks`                | Create a task (`{ "title": "..." }`)  | — | 201 | 400 missing/empty title |
+| PUT    | `/tasks/:id`            | Update a task's `title` and/or `done` | — | 200 | 400 invalid body · 404 unknown id |
+| DELETE | `/tasks/:id`            | Delete a task                         | — | 204 | 404 unknown id |
+
+All SQL queries use parameterized placeholders (`$1`, `$2`, …) — no request value is ever glued
+into a SQL string.
+
+## Example — the full auth flow via curl -i
+
+```
+$ curl -i -X POST http://localhost:3000/auth/signup \
+    -H "Content-Type: application/json" \
+    -d '{"email":"you@example.com","password":"password123"}'
+HTTP/1.1 201 Created
+...
+
+$ curl -s -X POST http://localhost:3000/auth/login \
+    -H "Content-Type: application/json" \
+    -d '{"email":"you@example.com","password":"password123"}'
+{"access_token":"eyJ...","refresh_token":"..."}
+
+$ curl -i http://localhost:3000/protected/profile \
+    -H "Authorization: Bearer eyJ..."
+HTTP/1.1 200 OK
+{"id":"...","email":"you@example.com","created_at":"..."}
+
+$ curl -i http://localhost:3000/protected/profile \
+    -H "Authorization: Bearer eyJ...tampered"
+HTTP/1.1 401 Unauthorized
+{"error":"Invalid or expired token"}
 ```
 
 ## Swagger UI
 
-`/docs` lists every endpoint and supports "Try it out" for the full CRUD cycle.
+`/docs` lists every endpoint and supports "Try it out" for the full CRUD cycle. Protected routes
+show a lock icon; click **Authorize**, paste an `access_token` from `/auth/login`, and every
+subsequent "Try it out" call sends it automatically — no curl needed.
 
-_Screenshot: add one here after clicking through the full CRUD cycle in `/docs`._
+_Screenshot: add one here after authorizing and calling `GET /protected/profile` from `/docs`._
 
 ## Data in the database
 

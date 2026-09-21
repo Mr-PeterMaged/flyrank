@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const express = require('express');
 const { serve } = require('inngest/express');
 const { inngest } = require('./inngest/client');
-const { sayHello, makeReport } = require('./inngest/functions');
+const { sayHello, makeReport, heartbeat } = require('./inngest/functions');
 const { reports } = require('./reports-store');
 
 const app = express();
@@ -12,7 +12,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.use('/api/inngest', serve({ client: inngest, functions: [sayHello, makeReport] }));
+app.use('/api/inngest', serve({ client: inngest, functions: [sayHello, makeReport, heartbeat] }));
 
 app.post('/reports', async (req, res) => {
   const { topic } = req.body ?? {};

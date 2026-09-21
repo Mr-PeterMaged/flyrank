@@ -10,7 +10,18 @@ const sayHello = inngest.createFunction(
 );
 
 const makeReport = inngest.createFunction(
-  { id: 'make-report', triggers: { event: 'report/requested' }, retries: 2 },
+  {
+    id: 'make-report',
+    triggers: { event: 'report/requested' },
+    retries: 2,
+    onFailure: async ({ event }) => {
+      const { id } = event.data.event.data;
+      const report = reports.get(id);
+      if (report) {
+        report.status = 'failed';
+      }
+    },
+  },
   async ({ event, step }) => {
     const { id, topic } = event.data;
 
@@ -33,4 +44,16 @@ const makeReport = inngest.createFunction(
   }
 );
 
-module.exports = { sayHello, makeReport };
+const heartbeat = inngest.createFunction(
+  { id: 'heartbeat', triggers: { cron: '* * * * *' } },
+  async () => {
+    const all = [...reports.values()];
+    const pending = all.filter((r) => r.status === 'pending').length;
+    const done = all.filter((r) => r.status === 'done').length;
+    const failed = all.filter((r) => r.status === 'failed').length;
+    console.log(`heartbeat: pending=${pending} done=${done} failed=${failed}`);
+    return { pending, done, failed };
+  }
+);
+
+module.exports = { sayHello, makeReport, heartbeat };

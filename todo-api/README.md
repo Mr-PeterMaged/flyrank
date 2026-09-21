@@ -68,6 +68,20 @@ that the API and DB Browser are two windows onto the same data, not two separate
 
 _Screenshot: add one here of `tasks.db` open in DB Browser for SQLite._
 
+## Docker / Postgres (in progress — W1 Assignment A3)
+
+A Postgres 16 container now runs alongside the app (not yet wired into the API — that's the
+next stage). Started by hand for now:
+
+```
+docker run --name taskdb -e POSTGRES_PASSWORD=dev -e POSTGRES_DB=tasks \
+  -p 5432:5432 -v taskdata:/var/lib/postgresql/data -d postgres:16
+```
+
+Pinned to `postgres:16` rather than `latest`: as of Postgres 18, the official image changed its
+data directory layout (a single mount at `/var/lib/postgresql` instead of
+`/var/lib/postgresql/data`), which breaks the older-style volume mount above.
+
 ## Persistence, proven
 
 Create a few tasks, restart the server, then `GET /tasks` again — the new tasks are still

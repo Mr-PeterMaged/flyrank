@@ -1,27 +1,60 @@
 # Task API
 
-A small CRUD API for a to-do list, built with Node.js and Express. Data is stored in a
-[SQLite](https://sqlite.org/) database file, `tasks.db`, so it survives a server restart.
+A small CRUD API for a to-do list, built with Node.js and Express, backed by a PostgreSQL
+database running in Docker. The whole stack — app and database — starts with one command.
 
-Built for FlyRank Internship · Backend Track · W2 (Assignment A1) and W3 (Assignment A2).
+Built for FlyRank Internship · Backend Track · W2 (A1, A2) and W1 (Assignment A3).
 
-## Why SQLite
+## Storage history
 
-SQLite needs no separate server and no install of its own — the whole database is one file
-on disk. `db.js` opens (and if needed creates) `tasks.db`, creates the `tasks` table if it's
-missing, and seeds 3 example tasks only the first time the table is empty. That's enough for
-a project this size: zero setup, and the data is still there tomorrow.
+The storage layer has moved three times while the API on top never changed:
+
+| Assignment | Where tasks live | What runs it |
+|------------|-------------------|--------------|
+| A1 | a list in memory | the Node process |
+| A2 | a `tasks.db` file | SQLite, on disk |
+| A3 (this) | rows in `tasks` | Postgres, in a Docker container |
 
 ## Install & run
+
+Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or Podman).
+
+```
+cp .env.example .env
+docker compose up
+```
+
+That single command builds the app image, starts a Postgres 16 container with a named volume
+(`taskdata`), waits for the database to report healthy, then starts the API — which creates the
+`tasks` table and seeds 3 example tasks on first run. The API is on `http://localhost:3000`,
+Swagger UI at `http://localhost:3000/docs`.
+
+`.env` holds `DATABASE_URL` and is git-ignored; `.env.example` is the committed template with
+placeholder values — no real credentials ever reach the repo.
+
+### Running the app outside Docker
+
+With Postgres reachable at `localhost:5432` (e.g. `docker compose up db`):
 
 ```
 npm install
 npm start
 ```
 
-The server starts on `http://localhost:3000` and creates `tasks.db` automatically on first
-run — a fresh clone works with no manual database setup. Interactive docs (Swagger UI) are at
-`http://localhost:3000/docs`.
+`npm start` reads `.env` via Node's `--env-file` flag.
+
+## Why Postgres in Docker
+
+Postgres runs as its own server process, the same engine behind a large share of real backends
+(FlyRank included) — a step up from A2's single-file SQLite database. Docker means nobody
+installs or configures Postgres by hand: `docker compose up` pulls the official `postgres:16`
+image and runs it identically on any machine. (Pinned to `16` rather than `latest`: Postgres 18
+changed the image's data directory layout to a single mount at `/var/lib/postgresql`, which
+breaks the `/var/lib/postgresql/data` volume path this project — and the assignment — uses.)
+
+The database's healthcheck (`pg_isready`) plus the API's `depends_on: condition: service_healthy`
+stops a real race condition: without it, the API container starts before Postgres is ready to
+accept connections and exits immediately on `ECONNREFUSED`.
 
 ## Endpoints
 
@@ -34,6 +67,9 @@ run — a fresh clone works with no manual database setup. Interactive docs (Swa
 | POST   | `/tasks`     | Create a task (`{ "title": "..." }`)| 201     | 400 missing/empty title |
 | PUT    | `/tasks/:id` | Update a task's `title` and/or `done` | 200   | 400 invalid body · 404 unknown id |
 | DELETE | `/tasks/:id` | Delete a task                       | 204     | 404 unknown id |
+
+All queries use parameterized placeholders (`$1`, `$2`, …) — no request value is ever glued into
+a SQL string.
 
 ## Example — curl -i
 
@@ -53,40 +89,31 @@ Content-Length: 40
 
 _Screenshot: add one here after clicking through the full CRUD cycle in `/docs`._
 
-## SQL by hand
-
-`tasks.db` can be opened directly in [DB Browser for SQLite](https://sqlitebrowser.org/) — its
-"Execute SQL" tab talks to the exact same file the API reads, so a change made there shows up
-in `GET /tasks` immediately, no server restart needed. One query run this way:
-
-```sql
-UPDATE tasks SET done = 1 WHERE id = 2;
-```
-
-Result: `GET /tasks` immediately showed task 2 (`"Walk the dog"`) with `"done": true` — proof
-that the API and DB Browser are two windows onto the same data, not two separate copies.
-
-_Screenshot: add one here of `tasks.db` open in DB Browser for SQLite._
-
-## Docker / Postgres (in progress — W1 Assignment A3)
-
-A Postgres 16 container now runs alongside the app (not yet wired into the API — that's the
-next stage). Started by hand for now:
+## Data in the database
 
 ```
-docker run --name taskdb -e POSTGRES_PASSWORD=dev -e POSTGRES_DB=tasks \
-  -p 5432:5432 -v taskdata:/var/lib/postgresql/data -d postgres:16
+$ docker exec todo-api-db-1 psql -U postgres -d tasks -c "\dt"
+ Schema | Name  | Type  |  Owner
+--------+-------+-------+----------
+ public | tasks | table | postgres
+
+$ docker exec todo-api-db-1 psql -U postgres -d tasks -c "SELECT * FROM tasks;"
+ id |    title     | done
+----+--------------+------
+  1 | Buy milk     | f
+  2 | Walk the dog | f
+  3 | Write README | t
 ```
 
-Pinned to `postgres:16` rather than `latest`: as of Postgres 18, the official image changed its
-data directory layout (a single mount at `/var/lib/postgresql` instead of
-`/var/lib/postgresql/data`), which breaks the older-style volume mount above.
+_Screenshot: add one here of the `tasks` table (psql output above, or a GUI like pgAdmin /
+DBeaver / TablePlus)._
 
 ## Persistence, proven
 
-Create a few tasks, restart the server, then `GET /tasks` again — the new tasks are still
-there. In Assignment 1, storage was an in-memory JavaScript array that lived in the process's
-RAM and was thrown away the moment the process exited, so a restart was indistinguishable from
-wiping the database. Now storage is a file on disk (`tasks.db`), so the process can stop and
-start as many times as it likes — the data outlives it. That's the entire point of a database,
-and the API layer (routes, validation, status codes) didn't have to change at all to get it.
+Create a task, then `docker compose down` followed by `docker compose up` — the task is still
+there, because `taskdata` is a named volume: it lives outside the container's filesystem and
+outlives `down` removing the container. Only `docker compose down -v` (or `docker volume rm`)
+deletes it. Each storage swap so far has traded a weaker kind of persistence for a stronger one:
+memory (gone on any restart) → a file on disk (gone if the file is deleted) → a volume attached
+to a real database server (survives container removal, and is how production databases are
+actually run).

@@ -19,18 +19,18 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.get('/tasks', (req, res) => {
-  const rows = db.prepare('SELECT * FROM tasks').all();
+app.get('/tasks', async (req, res) => {
+  const { rows } = await db.pool.query('SELECT * FROM tasks');
   res.json(rows.map(toTask));
 });
 
-app.get('/tasks/:id', (req, res) => {
+app.get('/tasks/:id', async (req, res) => {
   const id = Number(req.params.id);
-  const row = db.prepare('SELECT * FROM tasks WHERE id = ?').get(id);
-  if (!row) {
+  const { rows } = await db.pool.query('SELECT * FROM tasks WHERE id = $1', [id]);
+  if (!rows[0]) {
     return res.status(404).json({ error: 'Task not found' });
   }
-  res.json(toTask(row));
+  res.json(toTask(rows[0]));
 });
 
 app.post('/tasks', (req, res) => {

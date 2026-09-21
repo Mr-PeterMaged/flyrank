@@ -25,6 +25,12 @@ router.post('/triage', async (req, res) => {
     return res.json(STUB_RESPONSE);
   }
 
+  // Kill switch: flip LLM_ENABLED off without a deploy — an outage, a runaway bill,
+  // or a model saying something embarrassing are all "turn it off now" situations.
+  if (process.env.LLM_ENABLED === 'false') {
+    return res.status(503).json({ error: 'LLM feature is currently disabled' });
+  }
+
   try {
     const result = await triage(parsedInput.data.text);
     res.json(result);
@@ -32,9 +38,12 @@ router.post('/triage', async (req, res) => {
     if (err instanceof QuarantineError) {
       return res.status(422).json({ error: err.message });
     }
-    // Stage 4 adds a real retry/timeout policy; for now, surface the raw failure.
-    console.error(JSON.stringify({ type: 'llm_error', message: err.message }));
-    res.status(502).json({ error: 'The model call failed' });
+    if (err?.status === undefined) {
+      // No HTTP status means the request never completed — timeout or network error.
+      return res.status(504).json({ error: 'The model took too long to respond' });
+    }
+    console.error(JSON.stringify({ type: 'llm_error', message: err.message, status: err.status }));
+    res.status(502).json({ error: 'The model provider returned an error' });
   }
 });
 

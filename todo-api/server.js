@@ -3,6 +3,7 @@ const swaggerUi = require('swagger-ui-express');
 const openapiSpec = require('./openapi.json');
 const db = require('./db');
 const { supabase, checkConnection } = require('./supabase');
+const { requireAuth } = require('./auth-middleware');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -47,27 +48,25 @@ app.post('/auth/login', async (req, res) => {
   });
 });
 
-const extractToken = (req) => {
-  const header = req.headers.authorization ?? '';
-  const [scheme, token] = header.split(' ');
-  return scheme === 'Bearer' && token ? token : null;
-};
-
 app.get('/public/info', (req, res) => {
   res.json({ message: 'Welcome stranger! This info is public.' });
 });
 
-app.get('/protected/profile', async (req, res) => {
-  const token = extractToken(req);
-  if (!token) {
-    return res.status(401).json({ error: 'Access token required' });
-  }
-  const { data, error } = await supabase.auth.getUser(token);
-  if (error || !data.user) {
-    return res.status(401).json({ error: 'Invalid or expired token' });
-  }
-  const { id, email, created_at } = data.user;
+app.get('/protected/profile', requireAuth, (req, res) => {
+  const { id, email, created_at } = req.user;
   res.json({ id, email, created_at });
+});
+
+app.get('/protected/dashboard', requireAuth, (req, res) => {
+  res.json({ message: `Welcome back, ${req.user.email}` });
+});
+
+app.post('/auth/logout', requireAuth, async (req, res) => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    return res.status(400).json({ error: error.message });
+  }
+  res.status(204).end();
 });
 
 app.get('/tasks', async (req, res) => {

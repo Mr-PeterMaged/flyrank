@@ -18,6 +18,18 @@ app.get('/health', (req, res) => {
 });
 
 app.post('/reports', async (req, res) => {
+  const force = req.body?.force === true;
+
+  if (!force) {
+    const todayStart = new Date().toISOString().slice(0, 10);
+    const existing = db
+      .prepare("SELECT * FROM reports WHERE created_at >= ? ORDER BY id DESC LIMIT 1")
+      .get(`${todayStart}T00:00:00.000Z`);
+    if (existing) {
+      return res.status(200).json({ id: existing.id, file: `/reports/${existing.id}/file` });
+    }
+  }
+
   const data = getReportData();
   const filePath = path.join(REPORTS_DIR, `${Date.now()}.pdf`);
 

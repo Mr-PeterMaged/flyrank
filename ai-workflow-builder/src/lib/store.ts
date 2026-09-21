@@ -23,9 +23,12 @@ export function newNodeId() {
   return `node-${nextId++}`;
 }
 
+export type NodeRunStatus = 'idle' | 'current' | 'yes' | 'no';
+
 type FlowState = {
   nodes: DecisionNode[];
   edges: DecisionEdge[];
+  nodeStatus: Record<string, NodeRunStatus>;
   onNodesChange: OnNodesChange<DecisionNode>;
   onEdgesChange: OnEdgesChange<DecisionEdge>;
   onConnect: (connection: Connection) => void;
@@ -34,11 +37,14 @@ type FlowState = {
   updateNodeLabel: (id: string, label: string) => void;
   deleteNode: (id: string) => void;
   setGraph: (nodes: DecisionNode[], edges: DecisionEdge[]) => void;
+  setNodeStatus: (status: Record<string, NodeRunStatus>) => void;
+  resetNodeStatus: () => void;
 };
 
 export const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
   edges: [],
+  nodeStatus: {},
 
   onNodesChange: (changes) => {
     set({ nodes: applyNodeChanges(changes, get().nodes) });
@@ -99,4 +105,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   },
 
   setGraph: (nodes, edges) => set({ nodes, edges }),
+
+  setNodeStatus: (status) => set({ nodeStatus: status }),
+  resetNodeStatus: () => set({ nodeStatus: {} }),
 }));

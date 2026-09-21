@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import { inngest } from '@/lib/inngest/client';
 
 export async function POST(req: Request) {
@@ -12,10 +13,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'startNodeId is required' }, { status: 400 });
   }
 
-  const { ids } = await inngest.send({
+  const runId = randomUUID();
+
+  await inngest.send({
     name: 'workflow/run.requested',
-    data: { nodes, edges, startNodeId },
+    data: { nodes, edges, startNodeId, runId },
   });
 
-  return NextResponse.json({ eventId: ids[0] }, { status: 202 });
+  return NextResponse.json({ runId }, { status: 202 });
 }

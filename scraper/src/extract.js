@@ -33,15 +33,20 @@ function parseBookPage(html, bookUrl, sourcePage) {
   };
 }
 
-async function extractBooks(bookUrlToSourcePage) {
+async function extractBooks(bookUrlToSourcePage, stats) {
   const records = [];
   let count = 0;
 
   for (const [bookUrl, sourcePage] of bookUrlToSourcePage) {
-    const { html, fromCache } = await fetchHtml(bookUrl, cacheKeyFor(bookUrl));
+    const { html, fromCache } = await fetchHtml(bookUrl, cacheKeyFor(bookUrl), stats);
     if (html) {
-      records.push(parseBookPage(html, bookUrl, sourcePage));
-      count += 1;
+      try {
+        records.push(parseBookPage(html, bookUrl, sourcePage));
+        count += 1;
+      } catch (err) {
+        console.log(`PARSE FAIL ${bookUrl} -> ${err.message}`);
+        if (stats) stats.failedPages.push({ url: bookUrl, reason: `parse error: ${err.message}` });
+      }
     }
     if (!fromCache) {
       await sleep(DELAY_MS);

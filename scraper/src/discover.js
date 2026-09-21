@@ -7,7 +7,7 @@ const DELAY_MS = 500;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function discoverCataloguePages() {
+async function discoverCataloguePages(stats) {
   const bookUrls = [];
   const sourcePageByBookUrl = new Map();
   let pageUrl = START_URL;
@@ -17,7 +17,7 @@ async function discoverCataloguePages() {
     pageCount += 1;
     const cacheKey = `catalogue-page-${pageCount}`;
     const currentPageUrl = pageUrl;
-    const { html, fromCache } = await fetchHtml(pageUrl, cacheKey);
+    const { html, fromCache } = await fetchHtml(pageUrl, cacheKey, stats);
 
     const $ = cheerio.load(html);
     $('article.product_pod h3 a').each((_, el) => {

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "billing-refund",
+    "text": "I was charged $49 twice this month for my Pro plan. Can I get the duplicate charge refunded?",
+    "expected": { "category": "billing", "urgency": "normal" }
+  },
+  {
+    "id": "bug-crash",
+    "text": "Every time I tap 'export to PDF' on the iOS app it immediately crashes. Happens 100% of the time.",
+    "expected": { "category": "bug", "urgency": "high" }
+  },
+  {
+    "id": "feature-request",
+    "text": "It would be great if we could export our reports directly to Google Sheets instead of just CSV.",
+    "expected": { "category": "feature", "urgency": "low" }
+  },
+  {
+    "id": "bug-data-loss",
+    "text": "I lost three days of work because the editor didn't save my changes before it froze. This is urgent, I need that data back.",
+    "expected": { "category": "bug", "urgency": "high" }
+  },
+  {
+    "id": "billing-cancel",
+    "text": "How do I cancel my subscription before the next billing cycle?",
+    "expected": { "category": "billing", "urgency": "normal" }
+  },
+  {
+    "id": "ambiguous-vague",
+    "text": "It's not working like it used to.",
+    "expected": { "category": "other" }
+  },
+  {
+    "id": "unsure-empty-ish",
+    "text": "hi",
+    "expected": { "category": "other" }
+  },
+  {
+    "id": "feature-integration",
+    "text": "Any plans to add a Slack integration so we get notified when a report finishes?",
+    "expected": { "category": "feature", "urgency": "low" }
+  }
+]

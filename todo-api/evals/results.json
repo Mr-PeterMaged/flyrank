@@ -1,0 +1,132 @@
+{
+  "date": "2026-09-21T08:49:16.371Z",
+  "score": "7/8",
+  "results": [
+    {
+      "id": "billing-refund",
+      "text": "I was charged $49 twice this month for my Pro plan. Can I get the duplicate charge refunded?",
+      "expected": {
+        "category": "billing",
+        "urgency": "normal"
+      },
+      "pass": true,
+      "got": {
+        "category": "billing",
+        "urgency": "normal",
+        "suggested_team": "billing",
+        "confidence": 0.95,
+        "reason": "Clear duplicate-charge refund request."
+      }
+    },
+    {
+      "id": "bug-crash",
+      "text": "Every time I tap 'export to PDF' on the iOS app it immediately crashes. Happens 100% of the time.",
+      "expected": {
+        "category": "bug",
+        "urgency": "high"
+      },
+      "pass": true,
+      "got": {
+        "category": "bug",
+        "urgency": "high",
+        "suggested_team": "engineering",
+        "confidence": 0.9,
+        "reason": "Reproducible crash affecting a core feature."
+      }
+    },
+    {
+      "id": "feature-request",
+      "text": "It would be great if we could export our reports directly to Google Sheets instead of just CSV.",
+      "expected": {
+        "category": "feature",
+        "urgency": "low"
+      },
+      "pass": true,
+      "got": {
+        "category": "feature",
+        "urgency": "normal",
+        "suggested_team": "product",
+        "confidence": 0.85,
+        "reason": "Requests a new feature - exporting to Google Sheets."
+      }
+    },
+    {
+      "id": "bug-data-loss",
+      "text": "I lost three days of work because the editor didn't save my changes before it froze. This is urgent, I need that data back.",
+      "expected": {
+        "category": "bug",
+        "urgency": "high"
+      },
+      "pass": true,
+      "got": {
+        "category": "bug",
+        "urgency": "high",
+        "suggested_team": "engineering",
+        "confidence": 0.95,
+        "reason": "Lost work due to editor freeze – critical data loss."
+      }
+    },
+    {
+      "id": "billing-cancel",
+      "text": "How do I cancel my subscription before the next billing cycle?",
+      "expected": {
+        "category": "billing",
+        "urgency": "normal"
+      },
+      "pass": true,
+      "got": {
+        "category": "billing",
+        "urgency": "normal",
+        "suggested_team": "billing",
+        "confidence": 0.95,
+        "reason": "User is requesting information about cancellation process."
+      }
+    },
+    {
+      "id": "ambiguous-vague",
+      "text": "It's not working like it used to.",
+      "expected": {
+        "category": "other"
+      },
+      "pass": false,
+      "got": {
+        "category": "bug",
+        "urgency": "normal",
+        "suggested_team": "engineering",
+        "confidence": 0.7,
+        "reason": "Reports a functional issue."
+      }
+    },
+    {
+      "id": "unsure-empty-ish",
+      "text": "hi",
+      "expected": {
+        "category": "other"
+      },
+      "pass": true,
+      "got": {
+        "category": "other",
+        "urgency": "low",
+        "suggested_team": "support",
+        "confidence": 0.8,
+        "reason": "Message is a greeting."
+      }
+    },
+    {
+      "id": "feature-integration",
+      "text": "Any plans to add a Slack integration so we get notified when a report finishes?",
+      "expected": {
+        "category": "feature",
+        "urgency": "low"
+      },
+      "pass": true,
+      "got": {
+        "category": "feature",
+        "urgency": "normal",
+        "suggested_team": "product",
+        "confidence": 0.7,
+        "reason": "Suggests a new feature enhancement."
+      }
+    }
+  ]
+}

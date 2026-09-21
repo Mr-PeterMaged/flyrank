@@ -4,12 +4,14 @@ const openapiSpec = require('./openapi.json');
 const db = require('./db');
 const { supabase, checkConnection } = require('./supabase');
 const { requireAuth } = require('./auth-middleware');
+const triageRoute = require('./src/routes/triage');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpec));
+app.use(triageRoute);
 
 const toTask = (row) => ({ id: row.id, title: row.title, done: !!row.done });
 

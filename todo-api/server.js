@@ -2,9 +2,10 @@ const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const openapiSpec = require('./openapi.json');
 const db = require('./db');
+const { checkConnection } = require('./supabase');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpec));
@@ -80,13 +81,13 @@ app.delete('/tasks/:id', async (req, res) => {
   res.status(204).end();
 });
 
-db.init()
+Promise.all([db.init(), checkConnection()])
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Server listening on http://localhost:${PORT}`);
+      console.log(`Server running on http://localhost:${PORT} and connected to Supabase`);
     });
   })
   .catch((err) => {
-    console.error('Failed to connect to the database:', err.message);
+    console.error('Failed to start:', err.message);
     process.exit(1);
   });

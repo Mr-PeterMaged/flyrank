@@ -1,15 +1,8 @@
-const fs = require('fs');
-const path = require('path');
 const express = require('express');
 const { TriageInput } = require('../llm/schema');
-const { client, MODEL } = require('../llm/client');
+const { triage, QuarantineError } = require('../llm/complete');
 
 const router = express.Router();
-
-const SYSTEM_PROMPT = fs.readFileSync(
-  path.join(__dirname, '..', '..', 'prompts', 'triage-v1.md'),
-  'utf8'
-);
 
 // LLM_STUB=1 skips the model entirely and returns a fixed, schema-valid object.
 // This is how every later stage gets built and restarted without spending a call.
@@ -32,16 +25,17 @@ router.post('/triage', async (req, res) => {
     return res.json(STUB_RESPONSE);
   }
 
-  // Stage 3 adds parse + validate + repair; for now, return whatever the model said.
-  const response = await client.chat.completions.create({
-    model: MODEL,
-    temperature: 0,
-    messages: [
-      { role: 'system', content: SYSTEM_PROMPT },
-      { role: 'user', content: JSON.stringify({ text: parsedInput.data.text }) },
-    ],
-  });
-  res.json({ raw: response.choices[0].message.content });
+  try {
+    const result = await triage(parsedInput.data.text);
+    res.json(result);
+  } catch (err) {
+    if (err instanceof QuarantineError) {
+      return res.status(422).json({ error: err.message });
+    }
+    // Stage 4 adds a real retry/timeout policy; for now, surface the raw failure.
+    console.error(JSON.stringify({ type: 'llm_error', message: err.message }));
+    res.status(502).json({ error: 'The model call failed' });
+  }
 });
 
 module.exports = router;

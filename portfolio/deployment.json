@@ -1,0 +1,11 @@
+{
+  "assets": [
+    [
+      "index.html",
+      "index.html"
+    ]
+  ],
+  "backend": false,
+  "home": "/",
+  "demo": false
+}

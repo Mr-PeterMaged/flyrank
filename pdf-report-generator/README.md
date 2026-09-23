@@ -1,3 +1,20 @@
+# PDF Report Generator
+
+**Designed and developed by [Peter Maged](https://petermaged.com/).**
+
+Generate downloadable PDF reports from stored records through a small HTTP API.
+
+## Product and technical overview
+
+- **Implementation:** Node.js 24, Express 5, SQLite, Playwright/Chromium.
+- **Deployment:** Vercel frontend with an external backend; [DEPLOYMENT.md](DEPLOYMENT.md) contains exact settings and operational requirements.
+- **Ownership:** Peter Maged's project implementation; third-party libraries and upstream materials retain their attribution.
+- **License:** [LICENSE](LICENSE). Available for portfolio review, evaluation and further development under these terms.
+
+For project enquiries and implementation work: [petermaged.com](https://petermaged.com/).
+
+## Engineering guide and existing evidence
+
 # PDF report generator
 
 Query some data with SQL, render it into a real PDF, and let the API generate and hand it out by

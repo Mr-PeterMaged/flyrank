@@ -118,7 +118,7 @@
   .chart-card img{display:block; width:100%; border-radius:6px;}
   figcaption{font-size:.85rem; color:var(--ink-muted); padding:10px 4px 4px;}
 
-  table{width:100%; border-collapse:collapse; margin:18px 0; font-size:.92rem;}
+  table{display:block;overflow-x:auto;width:100%; border-collapse:collapse; margin:18px 0; font-size:.92rem;}
   table caption{text-align:left; font-size:.8rem; color:var(--ink-muted); margin-bottom:6px;}
   th,td{text-align:right; padding:9px 10px; border-bottom:1px solid var(--rule); font-variant-numeric:tabular-nums;}
   th:first-child,td:first-child{text-align:left; font-variant-numeric:normal;}
@@ -163,8 +163,11 @@
 
   @media (max-width:640px){
     .hero{padding-block:36px 20px;}
+    .wrap{overflow-wrap:anywhere;}
     h2{margin-top:2.4rem;}
   }
+
+.pm-credit{display:block;clear:both;padding:24px 16px;margin-top:24px;text-align:center;font:12px/1.8 system-ui,sans-serif;letter-spacing:normal;color:inherit;border-top:1px solid #87958c55}.pm-credit a{color:inherit;text-decoration:underline;text-underline-offset:3px}.pm-credit a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
 </style>
 </head>
 <body>
@@ -449,11 +452,12 @@ python work/capstone/scripts/make_figures.py</pre>
     full notebooks, data contract, and every script referenced above live under <code>work/</code>.</p>
   </section>
 
-  <footer>
+  <footer class="pm-credit" aria-label="Developer credits">
     <p><strong>Acknowledgments &amp; data credit</strong> &mdash; Built on the FlyRank ML Internship
     dataset: <a href="https://flyrank.ai">flyrank.ai</a>.</p>
     <p>Peter Maged &middot; FlyRank ML Internship, Lane 2 &middot; September 2026</p>
-  </footer>
+
+<div>Developed by <a href="https://petermaged.com/">peter maged</a></div><div>© 2026 PeterMaged. All rights reserved.</div></footer>
 
 </div>
 </body>

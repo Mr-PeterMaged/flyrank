@@ -1,3 +1,25 @@
+# Peter Maged — Software Engineering & Applied AI Portfolio
+
+**Project implementations designed and developed by [Peter Maged](https://petermaged.com/).**
+
+A collection of web products, API services, workflow automation and applied search research. The projects demonstrate practical product interfaces alongside database integration, background processing and technical documentation.
+
+| Project | Technical focus |
+|---|---|
+| [Portfolio](portfolio/) | Responsive project presentation |
+| [Research paper](paper/) | Search intelligence methodology and results |
+| [AI Workflow Builder](ai-workflow-builder/) | Next.js, React Flow, Inngest and AI decisions |
+| [Task API](todo-api/) | Express, PostgreSQL, Supabase and AI triage |
+| [Background Jobs](background-job/) | Inngest report workflows |
+| [PDF Reports](pdf-report-generator/) | SQLite and browser-based PDF rendering |
+| [Scraper](scraper/) | Polite collection and validated normalization |
+
+[Vercel deployment map](DEPLOYMENT.md) explains each root directory, backend requirements and environment settings. For project enquiries: [petermaged.com](https://petermaged.com/).
+
+Peter Maged owns his original project contributions. The original FlyRank starter code and teaching materials remain credited to FlyRank; source licenses and [DATA_USE.md](DATA_USE.md) remain in force.
+
+## Original starter documentation and research guide
+
 # FlyRank ML Internship — Starter Repo
 
 **Applied Search Intelligence: Google Search Ranking & Discoverability**

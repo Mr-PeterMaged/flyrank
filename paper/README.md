@@ -1,3 +1,20 @@
+# Search Intelligence — Research Paper
+
+**Designed and developed by [Peter Maged](https://petermaged.com/).**
+
+An applied search intelligence case study presenting methodology, results and reproducible implementation references.
+
+## Product and technical overview
+
+- **Implementation:** HTML, CSS, research figures and linked notebooks.
+- **Deployment:** Vercel static project page; [DEPLOYMENT.md](DEPLOYMENT.md) contains exact settings and operational requirements.
+- **Ownership:** Peter Maged's project implementation; third-party libraries and upstream materials retain their attribution.
+- **License:** [LICENSE](LICENSE). Available for portfolio review, evaluation and further development under these terms.
+
+For project enquiries and implementation work: [petermaged.com](https://petermaged.com/).
+
+## Engineering guide and existing evidence
+
 # paper/
 
 The deployed capstone research paper — plain static HTML/CSS, no build step, no dependencies.

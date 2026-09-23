@@ -36,6 +36,6 @@ app.get('/reports/:id', (req, res) => {
   res.json(report);
 });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, '0.0.0.0', () => {
   console.log('Server listening on http://localhost:3000');
 });

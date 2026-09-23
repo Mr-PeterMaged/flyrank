@@ -1,3 +1,20 @@
+# Polite Scraping Pipeline
+
+**Designed and developed by [Peter Maged](https://petermaged.com/).**
+
+Collect and normalize public catalog content with bounded discovery and structured validation.
+
+## Product and technical overview
+
+- **Implementation:** Node.js, Cheerio, Zod, CLI batch processing.
+- **Deployment:** Vercel static project page; [DEPLOYMENT.md](DEPLOYMENT.md) contains exact settings and operational requirements.
+- **Ownership:** Peter Maged's project implementation; third-party libraries and upstream materials retain their attribution.
+- **License:** [LICENSE](LICENSE). Available for portfolio review, evaluation and further development under these terms.
+
+For project enquiries and implementation work: [petermaged.com](https://petermaged.com/).
+
+## Engineering guide and existing evidence
+
 # The polite scraper
 
 A small, polite scraping pipeline: downloads the first 3 catalogue pages of

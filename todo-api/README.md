@@ -1,3 +1,20 @@
+# Task API & AI Triage
+
+**Designed and developed by [Peter Maged](https://petermaged.com/).**
+
+Manage tasks through an HTTP API with Supabase authentication endpoints and structured AI triage.
+
+## Product and technical overview
+
+- **Implementation:** Node.js, Express 5, PostgreSQL, Supabase Auth, OpenAI-compatible LLM client.
+- **Deployment:** Vercel frontend with an external backend; [DEPLOYMENT.md](DEPLOYMENT.md) contains exact settings and operational requirements.
+- **Ownership:** Peter Maged's project implementation; third-party libraries and upstream materials retain their attribution.
+- **License:** [LICENSE](LICENSE). Available for portfolio review, evaluation and further development under these terms.
+
+For project enquiries and implementation work: [petermaged.com](https://petermaged.com/).
+
+## Engineering guide and existing evidence
+
 # Task API
 
 A CRUD API for a to-do list, built with Node.js and Express, backed by a PostgreSQL database

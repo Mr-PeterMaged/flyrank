@@ -1,3 +1,11 @@
+# AI Workflow Builder — Peter Maged
+
+**Designed and developed by [Peter Maged](https://petermaged.com/).** A visual decision workflow product for prototyping AI-assisted business processes.
+
+Next.js, React Flow, TypeScript, Inngest and an OpenAI-compatible model adapter power the editor and execution workflow. See [DEPLOYMENT.md](DEPLOYMENT.md) for Vercel frontend/external backend settings and the current state/authentication limits. Source: [MIT License](LICENSE). Project enquiries: [petermaged.com](https://petermaged.com/).
+
+## Technical guide
+
 # AI Workflow Builder
 
 A visual editor for AI decision workflows: each node holds a prompt, an LLM answers it with

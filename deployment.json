@@ -1,0 +1,23 @@
+{
+  "assets": [
+    [
+      "portfolio/index.html",
+      "index.html"
+    ],
+    [
+      "paper/index.html",
+      "paper/index.html"
+    ],
+    [
+      "paper/capstone_precision_at_50_comparison.png",
+      "paper/capstone_precision_at_50_comparison.png"
+    ],
+    [
+      "paper/capstone_feature_importance.png",
+      "paper/capstone_feature_importance.png"
+    ]
+  ],
+  "backend": false,
+  "home": "/",
+  "demo": false
+}

@@ -1,16 +1,15 @@
 import OpenAI from 'openai';
 
-const client = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  baseURL: process.env.GEMINI_BASE_URL,
-});
-
 const MODEL = process.env.GEMINI_MODEL ?? 'gemini-2.0-flash';
 
 // Sends one decision-node prompt to the model and forces a YES/NO answer.
 // Never returns anything else — an unparseable answer is treated as an error
 // the caller must handle, not silently guessed into a direction.
 export async function askYesNo(prompt: string): Promise<'YES' | 'NO'> {
+  const client = new OpenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+    baseURL: process.env.GEMINI_BASE_URL,
+  });
   const res = await client.chat.completions.create({
     model: MODEL,
     temperature: 0,

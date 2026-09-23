@@ -1,3 +1,20 @@
+# Background Report Jobs
+
+**Designed and developed by [Peter Maged](https://petermaged.com/).**
+
+Explore asynchronous report processing with queued execution and workflow observability.
+
+## Product and technical overview
+
+- **Implementation:** Node.js, Express 5, Inngest, process-local report status.
+- **Deployment:** Vercel frontend with an external backend; [DEPLOYMENT.md](DEPLOYMENT.md) contains exact settings and operational requirements.
+- **Ownership:** Peter Maged's project implementation; third-party libraries and upstream materials retain their attribution.
+- **License:** [LICENSE](LICENSE). Available for portfolio review, evaluation and further development under these terms.
+
+For project enquiries and implementation work: [petermaged.com](https://petermaged.com/).
+
+## Engineering guide and existing evidence
+
 # Background job
 
 A small API with one slow task — an 8-second "report" — built to prove the pattern behind every

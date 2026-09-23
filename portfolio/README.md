@@ -1,3 +1,20 @@
+# Peter Maged — Project Portfolio
+
+**Designed and developed by [Peter Maged](https://petermaged.com/).**
+
+Selected software engineering and applied AI projects by Peter Maged.
+
+## Product and technical overview
+
+- **Implementation:** Semantic HTML and responsive CSS.
+- **Deployment:** Vercel static project page; [DEPLOYMENT.md](DEPLOYMENT.md) contains exact settings and operational requirements.
+- **Ownership:** Peter Maged's project implementation; third-party libraries and upstream materials retain their attribution.
+- **License:** [LICENSE](LICENSE). Available for portfolio review, evaluation and further development under these terms.
+
+For project enquiries and implementation work: [petermaged.com](https://petermaged.com/).
+
+## Engineering guide and existing evidence
+
 # portfolio/
 
 Peter Maged's personal portfolio — plain static HTML/CSS, no build step. Lives in the same repo

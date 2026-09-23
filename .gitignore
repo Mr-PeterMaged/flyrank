@@ -34,3 +34,9 @@ __pycache__/
 .venv/
 venv/
 .env
+
+# Deployment output and local configuration
+.vercel/
+node_modules/
+.env.local
+.env.*.local

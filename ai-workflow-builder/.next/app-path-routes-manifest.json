@@ -1,0 +1,9 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/inngest/route": "/api/inngest",
+  "/api/workflows/run/[runId]/route": "/api/workflows/run/[runId]",
+  "/api/workflows/run/route": "/api/workflows/run",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/"
+}

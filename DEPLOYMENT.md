@@ -21,6 +21,6 @@ Set `BACKEND_ORIGIN` on each backend-dependent Vercel project to its external HT
 
 Only explicitly selected web assets are published; data, notebooks, certificates, local configuration and source files are excluded. A successful frontend build does not mean an external database, job runner or model service has been provisioned.
 
-For repeat local builds, remove only the generated `.vercel/output` under the relevant project. Check the site on mobile and desktop, verify the footer link, and exercise the backend workflow before considering the deployment live.
+Repeat builds automatically replace only the validated generated `.vercel/output` directory under the relevant project. Check the site on mobile and desktop, verify the footer link, and exercise the backend workflow before considering the deployment live.
 
 Reference: [Vercel Build Output API](https://vercel.com/docs/build-output-api).

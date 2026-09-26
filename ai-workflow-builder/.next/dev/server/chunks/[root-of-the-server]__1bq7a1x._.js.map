@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 64, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Peter%20Maged/Desktop/flyrank/ai-workflow-builder/src/app/api/inngest/route.ts"],"sourcesContent":["import { serve } from 'inngest/next';\nimport { inngest } from '@/lib/inngest/client';\nimport { functions } from '@/lib/inngest/functions';\n\nexport const { GET, POST, PUT } = serve({\n  client: inngest,\n  functions,\n});\n"],"names":["GET","POST","PUT","client","functions"],"mappings":";;;;;;;;AAAA;AACA;AACA;;;;AAEO,MAAM,EAAEA,GAAG,EAAEC,IAAI,EAAEC,GAAG,EAAE,GAAG,IAAA,0IAAK,EAAC;IACtCC,QAAQ,4IAAO;IACfC,WAAAA,iJAAS;AACX"}},
+    {"offset": {"line": 86, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Peter%20Maged/Desktop/flyrank/ai-workflow-builder/src/lib/inngest/client.ts"],"sourcesContent":["import { Inngest } from 'inngest';\n\nexport const inngest = new Inngest({ id: 'ai-workflow-builder' });\n"],"names":["inngest","id"],"mappings":";;;;AAAA;;AAEO,MAAMA,UAAU,IAAI,6JAAO,CAAC;IAAEC,IAAI;AAAsB"}},
+    {"offset": {"line": 99, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Peter%20Maged/Desktop/flyrank/ai-workflow-builder/src/lib/inngest/functions.ts"],"sourcesContent":["// Phase 3 will add the workflow-execution function here.\nexport const functions = [];\n"],"names":["functions"],"mappings":"AAAA,yDAAyD;;;;;AAClD,MAAMA,YAAY,EAAE"}}]
+}

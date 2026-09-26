@@ -50,9 +50,12 @@ for target in TARGETS:
             assert 'href="https://petermaged.com/"' in content
             assert "© 2026 PeterMaged. All rights reserved." in content
         assert not any(p.suffix in {".py", ".db", ".sqlite", ".md"} for p in (output / "static").rglob("*"))
-        # Repeat builds must refuse stale output, never silently publish old assets.
+        # A committed build snapshot must not prevent a fresh Vercel build.
+        stale = output / "static/stale-private-file.txt"
+        stale.write_text("synthetic stale asset")
         result = subprocess.run(command, cwd=temporary, env=env, capture_output=True)
-        assert result.returncode != 0
+        assert result.returncode == 0, result.stderr.decode()
+        assert not stale.exists(), "Previous output must not survive a rebuild"
     print(f"PASS {target.relative_to(ROOT) or '.'}: assets, routes, credits, configuration guards")
 
 print("Seven deployment targets verified. No datasets or external services accessed.")

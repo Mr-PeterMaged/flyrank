@@ -22,7 +22,7 @@ This is a CLI pipeline, not an HTTP API. Vercel hosts its project page. Run npm 
 
 ## Build and verification
 
-Run `node scripts/build-vercel.mjs` with the environment above. For a clean rebuild remove only generated `.vercel/output` first. Missing or malformed backend configuration fails the build. A successful build verifies packaging, not remote backend availability.
+Run `node scripts/build-vercel.mjs` with the environment above. Each build validates and replaces only generated `.vercel/output`, so committed build snapshots do not block deployment. Missing or malformed backend configuration fails the build. A successful build verifies packaging, not remote backend availability.
 
 Existing checks: `node --check src/index.js`. After deployment, check desktop/mobile layout and the developer link, then exercise the real application workflow. Verify health, authentication, writes and logout where applicable. Configure the backend before expecting application data or jobs to work.
 

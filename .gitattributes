@@ -1,0 +1,16 @@
+ai-workflow-builder/node_modules/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node filter=lfs diff=lfs merge=lfs -text
+
+# Preserve bytes in the explicitly requested local environment snapshot.
+**/node_modules/** -text
+**/.next/** -text
+**/.vercel/** -text
+**/.venv/** -text
+**/__pycache__/** -text
+**/cache/** -text
+**/.pytest_cache/** -text
+**/.ruff_cache/** -text
+**/artifacts/** -text
+**/.env -text
+**/.env.local -text
+**/data/** -text
+**/*.db -text

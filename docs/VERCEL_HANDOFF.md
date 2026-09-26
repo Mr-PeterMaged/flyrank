@@ -26,8 +26,14 @@ Six repositories now include developer credits, project documentation, source li
 
 136 application tests passed: Gather 21, Lens 15, Social Studio 82, ApplyTrack 12, billing 6. Browser acceptance passed for Gather, Lens and ApplyTrack. Project frontends passed desktop/mobile footer and overflow checks. Next.js build and ESLint passed. Twelve static/proxy packages built, including optional root/standalone portfolio targets. The monorepo deployment notebook ran top to bottom.
 
-Real Stripe checkout, real social publishing, live model inference and hosted backend connections still need service configuration. Prototype access-control and in-memory state limitations are documented per project. The certificate directory contains documents only and is not a website or Git repository. Existing unrelated PDFs and local editor settings were kept out of the commits.
+Real Stripe checkout, real social publishing, live model inference and hosted backend connections still need service configuration. Prototype access-control and in-memory state limitations are documented per project. The certificate directory contains documents only; its files have been copied to flyrank/docs/certificates, with the project-specific briefs also included in their capstone repositories. The later full-snapshot request includes the PDFs, certificates, local editor settings, ignored dependencies, runtime artifacts, databases and environment files.
 
 ## GitHub delivery
 
 All six `main` branches were pushed and verified against GitHub: flyrank `49133ce`; Lens `306fc94`; Gather `ef9ec46`; billing `81d3ff1`; Social Studio `8b62216`; ApplyTrack `d6a5615`.
+
+## Full-snapshot follow-up (2026-09-27)
+
+The complete local files were explicitly requested, including ignored environment files and runtime dependencies. Vercel builders now validate and replace stale generated output automatically; all twelve static/proxy build-and-rebuild checks pass. Reinstall dependencies for the target operating system rather than relying on the included Windows binaries. The large Next.js native binary uses Git LFS.
+
+Environment secrets are part of the requested repository history. Rotate published credentials before relying on them. The original FlyRank data-leak CI guard is unchanged and conflicts with committing dataset archives. See GITHUB_UPLOAD_STATUS.md for the final delivery verification.
